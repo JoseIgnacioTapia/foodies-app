@@ -3,7 +3,9 @@ import React from "react";
 import classes from "./meals-grid.module.css";
 import MealItem from "./meal-item";
 
-function MealsGrid({ meals }) {
+import { Meal } from "../../types";
+
+function MealsGrid({ meals }: { meals: Meal[] }) {
   return (
     <ul className={classes.meals}>
       {meals.map((meal) => (
