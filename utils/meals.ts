@@ -9,5 +9,7 @@ export async function getMeals(): Promise<Meal[]> {
   await new Promise((resolve) => setTimeout(resolve, 2000));
   const mealsData = db.prepare("SELECT * FROM meals").all();
 
+  //   throw new Error("Loading meals failed");
+
   return mealsData as Meal[];
 }
