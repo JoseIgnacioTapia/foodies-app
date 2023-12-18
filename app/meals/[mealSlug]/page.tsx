@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 import classes from "./page.module.css";
 import { getMeal } from "@/utils/meals";
@@ -8,14 +9,7 @@ function MealDetailsPage({ params }: { params: { mealSlug: string } }) {
   const meal = getMeal(params.mealSlug);
 
   if (!meal) {
-    return (
-      <main
-        className="not-found"
-        style={{ color: "red", fontWeight: "bold", fontSize: "2rem" }}
-      >
-        Meal not found
-      </main>
-    );
+    return notFound();
   }
 
   meal.instructions = meal?.instructions.replace(/\n/g, "<br />");
