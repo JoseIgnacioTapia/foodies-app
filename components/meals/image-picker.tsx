@@ -1,12 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useRef } from "react";
 import Image from "next/image";
 
 import classes from "./image-picker.module.css";
 
 function ImagePicker({ label, name }: { label: string; name: string }) {
-  const [pickedImage, setPickedImage] = useState();
+  const [pickedImage, setPickedImage] = useState<string | ArrayBuffer | null>();
   const imageInput = useRef<HTMLInputElement>(null);
 
   function handlePickClick() {
@@ -15,8 +15,8 @@ function ImagePicker({ label, name }: { label: string; name: string }) {
     }
   }
 
-  function handleImageChange(event) {
-    const file = event.target.files[0];
+  function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
 
     if (!file) return;
 
@@ -35,7 +35,9 @@ function ImagePicker({ label, name }: { label: string; name: string }) {
       <div className={classes.controls}>
         <div className={classes.preview}>
           {!pickedImage && <p>No image picked yet.</p>}
-          {pickedImage && <Image src={pickedImage} alt="Preview" fill />}
+          {pickedImage && typeof pickedImage === "string" && (
+            <Image src={pickedImage} alt="Preview" fill />
+          )}
         </div>
         <input
           className={classes.input}
