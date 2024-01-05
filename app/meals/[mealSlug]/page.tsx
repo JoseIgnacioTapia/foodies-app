@@ -5,6 +5,23 @@ import { notFound } from "next/navigation";
 import classes from "./page.module.css";
 import { getMeal } from "@/utils/meals";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { mealSlug: string };
+}) {
+  const meal = getMeal(params.mealSlug);
+
+  if (!meal) {
+    return notFound();
+  }
+
+  return {
+    title: meal?.title,
+    description: meal?.summary,
+  };
+}
+
 function MealDetailsPage({ params }: { params: { mealSlug: string } }) {
   const meal = getMeal(params.mealSlug);
 
@@ -13,12 +30,13 @@ function MealDetailsPage({ params }: { params: { mealSlug: string } }) {
   }
 
   meal.instructions = meal?.instructions.replace(/\n/g, "<br />");
+  const imageSrc = meal?.image as string;
 
   return (
     <>
       <header className={classes.header}>
         <div className={classes.image}>
-          <Image src={meal?.image} alt={meal?.title} fill />
+          <Image src={imageSrc} alt={meal?.title} fill />
         </div>
         <div className={classes.headerText}>
           <h1>{meal?.title}</h1>
